@@ -3,13 +3,14 @@ import msgpack
 import random
 import asyncio
 import logging
-from kafka.common import TopicPartition, KafkaError
+from kafka.common import TopicPartition
 from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
-from utils import get_msgpack_hooks
+from aiokafka_rpc.utils import get_msgpack_hooks
 
 
 class RPCError(Exception):
     pass
+
 
 class CallObj(object):
     def __init__(self, wrapper):
@@ -88,6 +89,7 @@ class AIOKafkaRPCClient(object):
                 self.log.error("send RPC request failed: %s", err)
                 self._waiters[call_id].set_exception(err)
             return (yield from self._waiters[call_id])
+
         return rpc_call
 
     @asyncio.coroutine
@@ -96,18 +98,13 @@ class AIOKafkaRPCClient(object):
             message = yield from self.__consumer.getone()
             call_id = message.key
             response = message.value
-        self.call = CallObj(self._call_wrapper)
+            self.call = CallObj(self._call_wrapper)
 
             fut = self._waiters.get(call_id)
             if fut is None:
                 continue
-
             if "error" in response:
                 self.log.debug(response.get("stacktrace"))
                 fut.set_exception(RPCError(response["error"]))
             else:
                 fut.set_result(response["result"])
-
-
-
-
