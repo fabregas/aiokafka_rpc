@@ -45,3 +45,6 @@ loop.run_until_complete(test(loop))
 loop.close()
 ```
 
+## Installation
+
+> pip install aiokafka_rpc
