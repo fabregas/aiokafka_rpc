@@ -1,34 +1,28 @@
 language: python
 sudo: required
 services:
-    - docker
-
+- docker
 python:
-    - 3.5
-    - 3.6
-
+- 3.5
+- 3.6
 env:
   matrix:
-    - PYTHONASYNCIODEBUG=1
-
+  - PYTHONASYNCIODEBUG=1
 install:
-    - pip install flake8
-    - pip install pytest pytest-cov pytest-catchlog docker-py pytest-mock
-    - pip install codecov
-    - pip install .
-
+- pip install flake8
+- pip install pytest pytest-cov pytest-catchlog docker-py pytest-mock
+- pip install codecov
+- pip install .
 script:
-    - make cov
-
+- make cov
 after_success:
-    - codecov
-
+- codecov
 deploy:
   provider: pypi
   user: fabregas
   password:
-    secure: IOnymOaHzkEPGTZRzU2KvATs1LvI7aUIeB5UhMSv3CWAjX/rD3XNgdBS363ALH7PZiDW08i6Z6673fj6IrfumNDTEFtfkb4n8DfycnHO31eGNOywUQYDrz+lh+TAxJFfl268vanlbu3aX6W+2iW76bhpPvCZqnhADzOih0wLRzaczvUAenOgqlsdnUBG52XRgSDOC28S4gEVKwyVh2rYQHaODKON27bnCgltDaishWU++fGsAUkk9rXwX0171GRcfKz75cI1WgHJDCV84AYdULBIxp9HQV32ITuS2gw8jSQXxALrvg29+FGmlOMX4ofg2k4Ya+Px5BbKvYq2/lY8Q7rJp3CHo4SixDgfsSjgnwbyQbr/xYiqRnuonFe1CT0h1ChwQRKQrZytOKi+qn6Dms26DpcQqj5ukwXaezNNrf3kvcwcFF+gbx3nj01hvii/ulUzzRD2f9JkDGVwdmZCLo19nE7uSnF2AVRDdN+hVwnRiWVxyJ9YWXeKPacbVW8uGQWU2DSFWPI4h0/7M4c9e7WZ5RikcAaJjCcSPeEjA8ceBqGh5aZZl/xui5VODl8qout0pyXcDT9dC8d/Ku8grVHsU5BPqV5WNae+75aiOH7So/02WFeP/lEerqE02cn6FmMF3M/0NwBnqo6XhfdpfoIxeC33cQ0GeoggDc9/pg8=
-  distributions: "sdist"
+    secure: GbRQ988hvprSmeURr7aYFY3zQt4C0jhz6E0SLtWyjjnVx2i63ROwSDNpPqrmTlbwEipwJfWff7gasN6g12cjNAlKQxfRn8/Pz533I2rkG9dgUPARV9H9v9pMm3aGEmI3POcemXZQE2bxjPvtjbVnoSlaquY+lbVW0aJR9g69P+OwLEKn3PvsR4RgipbtoXkC1iKdydeWmq07Yc9oPVqEsqp7/cHo2xSSJ+6k6BdTIhtGemCACusRLW6AyuVYa4PBKhpY4VUP3aBM1vTNKzu9ViG/Sa+HJtvkAFtbEtoYHT6nhR/biaxJQ9qRx9QXpTRPyvslMT7oW7mOCR4NEFhgHx2+r4znvPL9vCkBueFq05tTwlQr3niKcfZGuoPTMJ0eAjwq1cPVPFjrd12Cy6PPDWytwfnEuGschMV8S87QmVkj7krhiB1DFnB/PxQVJ2z7Nrfd4mKnbEdBHJBkqbrFzQEABG4BLnBB+EhyarvLSH3x+RYVUNPvOdUk41hz5yB+QRZNV7GbZSs7b4Qoh4FMPYrpE7brTw7dEFZQfcDHz8FkLenFw/gQqMTTgfFXnUuIEgDPMghJyBuG9rxuB+rp9xYDGs6wg4WyaPWh//Qdiho+dJ4pRms2HA5bcf3kx9tZbsOc4q1I8lpzu5EH413Fx1rZwvCbvQViqSRqnUv2di8=
+  distributions: sdist
   on:
     tags: true
     python: 3.5
