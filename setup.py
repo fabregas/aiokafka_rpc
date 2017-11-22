@@ -7,7 +7,7 @@ install_requires = [
 
 setup(
     name="aiokafka_rpc",
-    version="1.2.0",
+    version="1.2.1",
     author='Kostiantyn Andrusenko',
     author_email='kksstt@gmail.com',
     description=("RPC over Apache Kafka for Python using asyncio"),
