@@ -6,7 +6,7 @@ import asyncio
 import logging
 from kafka.common import KafkaError
 from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
-from utils import get_msgpack_hooks
+from aiokafka_rpc.client import get_msgpack_hooks
 
 
 class AIOKafkaRPC(object):
@@ -63,7 +63,7 @@ class AIOKafkaRPC(object):
         if err is not None:
             out = io.StringIO()
             traceback.print_exc(file=out)
-            ret = {"error": str(err), "stacktrace": out.getvalue()}
+            ret = {"error": repr(err), "stacktrace": out.getvalue()}
         else:
             ret = {"result": result}
         self._res_queue.put_nowait((call_id, ptid, ret))
