@@ -54,6 +54,9 @@ class AIOKafkaRPCClient(object):
         yield from self.__consumer.start()
         self.__consumer.assign(
             [TopicPartition(self._out_topic, p) for p in self._out_partitions])
+        # ensure that topic partitions exists
+        for tp in self.__consumer.assignment():
+            yield from self.__consumer.position(tp)
         self._consume_task = self._loop.create_task(self.__consume_routine())
 
     @asyncio.coroutine

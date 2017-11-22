@@ -1,6 +1,6 @@
 # aiokafka_rpc
 
-RPC over Apache Kafka for Python using asyncio
+### RPC over Apache Kafka for Python using asyncio (>=python3.5.1)
 
 Example of aiokafka RPC using:
 
@@ -10,34 +10,32 @@ import asyncio
 from aiokafka_rpc import AIOKafkaRPC, AIOKafkaRPCClient
 
 class MyRPC(object):
-    @asyncio.coroutine
-    def test_method(self, val, test=False):
+    async def test_method(self, val, test=False):
         return [val * 100, test]
 
-    @asyncio.coroutine
-    def strlen(self, s):
+    async def strlen(self, s):
         return len(s)
 
-@asyncio.coroutine
-def test(loop):
-    server = AIOKafkaRPC(MyRPC(), loop=loop)
-    client = AIOKafkaRPCClient(loop=loop)
 
-    yield from server.run()
-    yield from client.run()
+async def test(loop):
+    kafka_servers = ["localhost:9092"]
+    server = AIOKafkaRPC(MyRPC(), kafka_servers=kafka_servers, loop=loop)
+    await server.run()
 
+    client = AIOKafkaRPCClient(kafka_servers=kafka_servers, loop=loop)
+    await client.run()
 
-    res = yield from client.call.test_method(234)
+    res = await client.call.test_method(234)
     assert res, [23400, False]
 
-    res = yield from client.call.test_method(234, test=True)
+    res = await client.call.test_method(234, test=True)
     assert res, [23400, True]
 
-    res = yield from client.call.strlen('test')
+    res = await client.call.strlen('test')
     assert res, 4
 
-    yield from client.close()
-    yield from server.close()
+    await client.close()
+    await server.close()
 
 
 loop = asyncio.get_event_loop()
