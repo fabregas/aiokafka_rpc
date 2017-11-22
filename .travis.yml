@@ -1,0 +1,34 @@
+language: python
+sudo: required
+services:
+    - docker
+
+python:
+    - 3.5
+    - 3.6
+
+env:
+  matrix:
+    - PYTHONASYNCIODEBUG=1
+
+install:
+    - pip install flake8
+    - pip install pytest pytest-cov pytest-catchlog docker-py pytest-mock
+    - pip install codecov
+    - pip install .
+
+script:
+    - make cov
+
+after_success:
+    - codecov
+
+deploy:
+  provider: pypi
+  user: fabregas
+  password:
+    secure: IOnymOaHzkEPGTZRzU2KvATs1LvI7aUIeB5UhMSv3CWAjX/rD3XNgdBS363ALH7PZiDW08i6Z6673fj6IrfumNDTEFtfkb4n8DfycnHO31eGNOywUQYDrz+lh+TAxJFfl268vanlbu3aX6W+2iW76bhpPvCZqnhADzOih0wLRzaczvUAenOgqlsdnUBG52XRgSDOC28S4gEVKwyVh2rYQHaODKON27bnCgltDaishWU++fGsAUkk9rXwX0171GRcfKz75cI1WgHJDCV84AYdULBIxp9HQV32ITuS2gw8jSQXxALrvg29+FGmlOMX4ofg2k4Ya+Px5BbKvYq2/lY8Q7rJp3CHo4SixDgfsSjgnwbyQbr/xYiqRnuonFe1CT0h1ChwQRKQrZytOKi+qn6Dms26DpcQqj5ukwXaezNNrf3kvcwcFF+gbx3nj01hvii/ulUzzRD2f9JkDGVwdmZCLo19nE7uSnF2AVRDdN+hVwnRiWVxyJ9YWXeKPacbVW8uGQWU2DSFWPI4h0/7M4c9e7WZ5RikcAaJjCcSPeEjA8ceBqGh5aZZl/xui5VODl8qout0pyXcDT9dC8d/Ku8grVHsU5BPqV5WNae+75aiOH7So/02WFeP/lEerqE02cn6FmMF3M/0NwBnqo6XhfdpfoIxeC33cQ0GeoggDc9/pg8=
+  distributions: "sdist"
+  on:
+    tags: true
+    python: 3.5

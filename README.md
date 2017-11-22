@@ -1,4 +1,6 @@
 # aiokafka_rpc
+[![Build Status](https://travis-ci.org/fabregas/aiokafka_rpc.svg?branch=master)](https://travis-ci.org/fabregas/aiokafka_rpc)
+[![codecov](https://codecov.io/gh/fabregas/aiokafka_rpc/branch/master/graph/badge.svg)](https://codecov.io/gh/fabregas/aiokafka_rpc)
 
 ### RPC over Apache Kafka for Python using asyncio (>=python3.5.1)
 
