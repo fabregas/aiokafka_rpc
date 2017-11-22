@@ -71,16 +71,14 @@ def loop(request):
     gc.collect()
     asyncio.set_event_loop(None)
 
-if sys.platform == 'darwin' or sys.platform == 'win32':
 
+if sys.platform == 'darwin' or sys.platform == 'win32':
     @pytest.fixture(scope='session')
     def docker_ip_address():
         """Returns IP address of the docker daemon service."""
         # docker for mac publishes ports on localhost
         return '127.0.0.1'
-
 else:
-
     @pytest.fixture(scope='session')
     def docker_ip_address(docker):
         """Returns IP address of the docker daemon service."""
