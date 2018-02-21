@@ -3,7 +3,7 @@ import msgpack
 import random
 import asyncio
 import logging
-from kafka.common import TopicPartition
+# from kafka.common import TopicPartition
 from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
 from aiokafka_rpc.utils import get_msgpack_hooks
 
@@ -37,6 +37,7 @@ class AIOKafkaRPCClient(object):
 
         default, ext_hook = get_msgpack_hooks(translation_table)
         self.__consumer = AIOKafkaConsumer(
+            self._out_topic,
             loop=loop, bootstrap_servers=kafka_servers,
             group_id=None,
             key_deserializer=lambda x: x.decode("utf-8"),
@@ -52,8 +53,10 @@ class AIOKafkaRPCClient(object):
     def run(self):
         yield from self.__producer.start()
         yield from self.__consumer.start()
-        self.__consumer.assign(
-            [TopicPartition(self._out_topic, p) for p in self._out_partitions])
+        # FIXME manual partition assignment does not work correctly in aiokafka
+        # self.__consumer.assign(
+        # [TopicPartition(self._out_topic, p) for p in self._out_partitions])
+        #
         # ensure that topic partitions exists
         for tp in self.__consumer.assignment():
             yield from self.__consumer.position(tp)
